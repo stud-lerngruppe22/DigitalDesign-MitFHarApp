@@ -1,0 +1,1574 @@
+/* CampusRide - Mobile-First CSS */
+
+/* CSS Variables */
+:root {
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --primary-light: #dbeafe;
+    --secondary: #64748b;
+    --success: #22c55e;
+    --success-light: #dcfce7;
+    --danger: #ef4444;
+    --danger-light: #fee2e2;
+    --warning: #f59e0b;
+    --warning-light: #fef3c7;
+
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --bg-tertiary: #f1f5f9;
+
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --text-muted: #94a3b8;
+
+    --border-color: #e2e8f0;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-full: 9999px;
+
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+
+    --header-height: 56px;
+    --nav-height: 64px;
+}
+
+/* Reset */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    line-height: 1.5;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Screen Management */
+.screen {
+    display: none;
+    min-height: 100vh;
+    background-color: var(--bg-secondary);
+}
+
+.screen.active {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Typography */
+h1 {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+h2 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-md);
+}
+
+h3 {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+p {
+    color: var(--text-secondary);
+}
+
+/* Buttons */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: 1rem;
+    font-weight: 500;
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+}
+
+.btn-secondary {
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
+}
+
+.btn-secondary:hover {
+    background-color: var(--border-color);
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 2px solid var(--primary);
+    color: var(--primary);
+}
+
+.btn-outline:hover {
+    background-color: var(--primary-light);
+}
+
+.btn-danger {
+    background-color: var(--danger);
+    color: white;
+}
+
+.btn-full {
+    width: 100%;
+}
+
+.btn-small {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: 0.875rem;
+}
+
+.btn-icon {
+    background: none;
+    border: none;
+    padding: var(--spacing-sm);
+    cursor: pointer;
+    font-size: 1.25rem;
+    border-radius: var(--radius-sm);
+}
+
+.btn-icon:hover {
+    background-color: var(--bg-tertiary);
+}
+
+.btn-icon-inline {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.25rem;
+    padding: var(--spacing-xs);
+}
+
+/* Form Elements */
+.form-group {
+    margin-bottom: var(--spacing-md);
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-xs);
+}
+
+input, select {
+    width: 100%;
+    padding: var(--spacing-md);
+    font-size: 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background-color: var(--bg-primary);
+    transition: border-color 0.2s ease;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+input::placeholder {
+    color: var(--text-muted);
+}
+
+.input-with-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-with-icon .input-icon {
+    position: absolute;
+    left: var(--spacing-md);
+    font-size: 1.25rem;
+}
+
+.input-with-icon input {
+    padding-left: calc(var(--spacing-md) * 2 + 1.25rem);
+    padding-right: calc(var(--spacing-md) * 2 + 1.25rem);
+}
+
+.input-with-icon .btn-icon-inline {
+    position: absolute;
+    right: var(--spacing-sm);
+}
+
+/* Header */
+.app-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-md);
+    background-color: var(--bg-primary);
+    border-bottom: 1px solid var(--border-color);
+    height: var(--header-height);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-left, .header-right {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.header-spacer {
+    width: 40px;
+}
+
+.user-greeting {
+    font-weight: 500;
+}
+
+/* Bottom Navigation */
+.bottom-nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: var(--spacing-sm) var(--spacing-md);
+    background-color: var(--bg-primary);
+    border-top: 1px solid var(--border-color);
+    height: var(--nav-height);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: var(--spacing-sm);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: color 0.2s ease;
+}
+
+.nav-item.active {
+    color: var(--primary);
+}
+
+.nav-icon {
+    font-size: 1.5rem;
+}
+
+.nav-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+/* ==================== LOGIN SCREEN ==================== */
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: var(--spacing-lg);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+}
+
+.logo {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    color: white;
+}
+
+.logo-icon {
+    font-size: 4rem;
+    margin-bottom: var(--spacing-sm);
+}
+
+.logo h1 {
+    font-size: 2rem;
+    margin-bottom: var(--spacing-xs);
+}
+
+.tagline {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+}
+
+.login-box {
+    background-color: var(--bg-primary);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    width: 100%;
+    max-width: 400px;
+    box-shadow: var(--shadow-lg);
+}
+
+.login-box h2 {
+    text-align: center;
+    margin-bottom: var(--spacing-sm);
+}
+
+.login-info {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+    font-size: 0.875rem;
+}
+
+.privacy-note {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: var(--spacing-md);
+}
+
+/* ==================== DASHBOARD SCREEN ==================== */
+.dashboard-content {
+    flex: 1;
+    padding: var(--spacing-md);
+    padding-bottom: calc(var(--nav-height) + var(--spacing-lg));
+    overflow-y: auto;
+}
+
+/* Credits Card */
+.credits-card {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    color: white;
+    margin-bottom: var(--spacing-lg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.credits-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.credits-label {
+    font-size: 0.875rem;
+    opacity: 0.9;
+}
+
+.credits-value {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.status-badge {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.status-badge.active {
+    background-color: var(--success);
+    color: white;
+}
+
+/* Role Selection */
+.role-selection {
+    margin-bottom: var(--spacing-lg);
+}
+
+.role-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-md);
+}
+
+.role-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--spacing-lg);
+    background-color: var(--bg-primary);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.role-card:hover, .role-card:focus {
+    border-color: var(--primary);
+    background-color: var(--primary-light);
+}
+
+.role-icon {
+    font-size: 2.5rem;
+    margin-bottom: var(--spacing-sm);
+}
+
+.role-text {
+    text-align: center;
+}
+
+.role-text h3 {
+    margin-bottom: var(--spacing-xs);
+}
+
+.role-text p {
+    font-size: 0.75rem;
+}
+
+/* Status Section */
+.status-section {
+    margin-bottom: var(--spacing-lg);
+}
+
+.status-card {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    background-color: var(--warning-light);
+    border-radius: var(--radius-md);
+}
+
+.status-icon {
+    font-size: 1.5rem;
+}
+
+/* Rides Section */
+.rides-section {
+    margin-bottom: var(--spacing-lg);
+}
+
+.rides-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.ride-card {
+    background-color: var(--bg-primary);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.ride-route {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-weight: 500;
+}
+
+.ride-arrow {
+    color: var(--text-muted);
+}
+
+.ride-details {
+    display: flex;
+    gap: var(--spacing-md);
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+/* ==================== SEARCH SCREEN ==================== */
+.search-content {
+    flex: 1;
+    padding: var(--spacing-md);
+    overflow-y: auto;
+}
+
+.search-form {
+    margin-bottom: var(--spacing-lg);
+}
+
+.driver-options {
+    padding: var(--spacing-md);
+    background-color: var(--bg-tertiary);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-md);
+}
+
+/* Meeting Points */
+.meeting-points, .search-results {
+    margin-top: var(--spacing-lg);
+}
+
+.info-text {
+    font-size: 0.875rem;
+    margin-bottom: var(--spacing-md);
+}
+
+.points-list, .results-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.point-card, .result-card {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    background-color: var(--bg-primary);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.point-card:hover, .result-card:hover {
+    background-color: var(--primary-light);
+}
+
+.point-card.selected, .result-card.selected {
+    border: 2px solid var(--primary);
+}
+
+/* ==================== MATCH SCREEN ==================== */
+.match-content {
+    flex: 1;
+    padding: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+}
+
+.match-success {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+}
+
+.match-icon {
+    font-size: 4rem;
+    margin-bottom: var(--spacing-sm);
+}
+
+.match-details {
+    flex: 1;
+}
+
+.match-person {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    background-color: var(--bg-primary);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.person-avatar {
+    width: 48px;
+    height: 48px;
+    background-color: var(--primary-light);
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.person-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.person-name {
+    font-weight: 600;
+}
+
+.person-rating {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+/* Route Display */
+.match-route {
+    padding: var(--spacing-lg);
+    background-color: var(--bg-primary);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.route-point {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+}
+
+.point-icon {
+    font-size: 0.75rem;
+    margin-top: 4px;
+}
+
+.point-icon.start {
+    color: var(--success);
+}
+
+.point-icon.end {
+    color: var(--danger);
+}
+
+.point-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.point-name {
+    font-weight: 500;
+}
+
+.route-line {
+    width: 2px;
+    height: 24px;
+    background-color: var(--border-color);
+    margin-left: 3px;
+    margin-top: var(--spacing-xs);
+    margin-bottom: var(--spacing-xs);
+}
+
+.match-time {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    background-color: var(--bg-tertiary);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.time-icon {
+    font-size: 1.5rem;
+}
+
+.time-value {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.match-actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+/* ==================== ACTIVE RIDE SCREEN ==================== */
+.ride-header {
+    background-color: var(--success);
+    color: white;
+    justify-content: center;
+}
+
+.ride-status-indicator {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.status-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: white;
+}
+
+.status-dot.recording {
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.ride-content {
+    flex: 1;
+    padding: var(--spacing-md);
+    display: flex;
+    flex-direction: column;
+}
+
+.ride-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* QR Section */
+.qr-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-lg);
+}
+
+.qr-display {
+    width: 200px;
+    height: 200px;
+    background-color: var(--bg-primary);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--spacing-md);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+}
+
+.qr-display canvas {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.qr-placeholder {
+    text-align: center;
+    color: var(--text-muted);
+}
+
+.qr-icon {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-sm);
+}
+
+.qr-info {
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.qr-actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+}
+
+/* Active Ride */
+.ride-timer {
+    text-align: center;
+    padding: var(--spacing-lg);
+    background-color: var(--bg-primary);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.timer-label {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.timer-value {
+    font-size: 3rem;
+    font-weight: 700;
+    font-family: 'SF Mono', 'Monaco', monospace;
+}
+
+.ride-map-placeholder {
+    flex: 1;
+    margin-bottom: var(--spacing-md);
+}
+
+.map-container {
+    height: 200px;
+    background-color: var(--bg-tertiary);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.map-placeholder {
+    text-align: center;
+    color: var(--text-muted);
+}
+
+.map-icon {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-sm);
+}
+
+.gps-coordinates {
+    font-family: 'SF Mono', 'Monaco', monospace;
+    font-size: 0.75rem;
+    margin-top: var(--spacing-sm);
+    color: var(--text-secondary);
+}
+
+.ride-info-bar {
+    display: flex;
+    justify-content: space-around;
+    padding: var(--spacing-md);
+    background-color: var(--bg-primary);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-size: 0.875rem;
+}
+
+.ride-actions {
+    display: flex;
+    gap: var(--spacing-md);
+}
+
+.ride-actions .btn {
+    flex: 1;
+}
+
+/* Ride Complete */
+#ride-complete-section {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--spacing-xl);
+}
+
+.complete-icon {
+    font-size: 4rem;
+    margin-bottom: var(--spacing-md);
+}
+
+.complete-stats {
+    display: flex;
+    gap: var(--spacing-xl);
+    margin: var(--spacing-lg) 0;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.stat-value {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.validation-progress {
+    width: 100%;
+    max-width: 300px;
+    margin: var(--spacing-lg) 0;
+}
+
+.progress-bar {
+    height: 8px;
+    background-color: var(--bg-tertiary);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: var(--primary);
+    border-radius: var(--radius-full);
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+.progress-text {
+    font-size: 0.875rem;
+    margin-top: var(--spacing-sm);
+}
+
+/* ==================== MODAL ==================== */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: var(--spacing-md);
+}
+
+.modal-content {
+    background-color: var(--bg-primary);
+    border-radius: var(--radius-lg);
+    width: 100%;
+    max-width: 400px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-md);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.scanner-container {
+    padding: var(--spacing-lg);
+}
+
+.scanner-preview {
+    height: 250px;
+    background-color: var(--bg-tertiary);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--spacing-md);
+    position: relative;
+    overflow: hidden;
+}
+
+.scanner-frame {
+    width: 180px;
+    height: 180px;
+    border: 3px solid var(--primary);
+    border-radius: var(--radius-md);
+    position: absolute;
+}
+
+.scanner-fallback {
+    text-align: center;
+}
+
+.scanner-fallback p {
+    margin-bottom: var(--spacing-md);
+}
+
+.scanner-fallback input {
+    margin-bottom: var(--spacing-md);
+}
+
+/* ==================== HISTORY SCREEN ==================== */
+.history-content {
+    flex: 1;
+    padding: var(--spacing-md);
+    padding-bottom: calc(var(--nav-height) + var(--spacing-lg));
+    overflow-y: auto;
+}
+
+.history-summary {
+    display: flex;
+    justify-content: space-around;
+    padding: var(--spacing-lg);
+    background-color: var(--bg-primary);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.summary-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.summary-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.summary-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.history-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    background-color: var(--bg-primary);
+    border-radius: var(--radius-md);
+}
+
+.history-icon {
+    width: 40px;
+    height: 40px;
+    background-color: var(--success-light);
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.history-details {
+    flex: 1;
+}
+
+.history-route {
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+
+.history-date {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.history-credits {
+    font-weight: 600;
+    color: var(--success);
+}
+
+.history-empty {
+    text-align: center;
+    padding: var(--spacing-xl);
+    color: var(--text-muted);
+}
+
+.empty-icon {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-md);
+    display: block;
+}
+
+/* ==================== TOAST ==================== */
+.toast {
+    position: fixed;
+    bottom: calc(var(--nav-height) + var(--spacing-md));
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--text-primary);
+    color: white;
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    box-shadow: var(--shadow-lg);
+    z-index: 1001;
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateX(-50%) translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+    }
+}
+
+/* ==================== TRACKING BANNER ==================== */
+.tracking-banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--success);
+    color: white;
+    padding: var(--spacing-sm) var(--spacing-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    font-size: 0.875rem;
+    z-index: 1002;
+}
+
+.banner-icon {
+    animation: pulse 1.5s infinite;
+}
+
+/* ==================== KARMA INFO (Dashboard) ==================== */
+.karma-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.karma-label {
+    font-size: 0.75rem;
+    opacity: 0.9;
+}
+
+.karma-value {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+/* ==================== QUICK MATCH BUTTON ==================== */
+.quick-match-btn {
+    margin-bottom: var(--spacing-lg);
+}
+
+.btn-accent {
+    background: linear-gradient(135deg, var(--warning) 0%, #ea580c 100%);
+    color: white;
+    font-weight: 600;
+}
+
+.btn-accent:hover {
+    filter: brightness(1.1);
+}
+
+/* ==================== DEPARTURES SECTION ==================== */
+.departures-section {
+    margin-bottom: var(--spacing-lg);
+}
+
+.departures-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.departure-card {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    background-color: var(--bg-primary);
+    border-radius: var(--radius-md);
+    border-left: 4px solid var(--primary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.departure-card:hover {
+    background-color: var(--primary-light);
+}
+
+.departure-time {
+    font-size: 1.25rem;
+    font-weight: 700;
+    font-family: 'SF Mono', 'Monaco', monospace;
+    color: var(--primary);
+    min-width: 50px;
+}
+
+.departure-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.departure-destination {
+    font-weight: 600;
+}
+
+.departure-driver {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.departure-seats {
+    background-color: var(--success-light);
+    color: var(--success);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+/* ==================== FILTER OPTIONS ==================== */
+.filter-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    cursor: pointer;
+    font-size: 0.875rem;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+}
+
+/* ==================== VEHICLE INFO ==================== */
+.vehicle-info {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    background-color: var(--bg-tertiary);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.vehicle-icon {
+    font-size: 1.5rem;
+}
+
+.vehicle-text {
+    font-weight: 500;
+}
+
+/* ==================== MATCH ETA ==================== */
+.match-eta {
+    display: flex;
+    justify-content: space-around;
+    padding: var(--spacing-md);
+    background-color: var(--bg-tertiary);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.eta-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.eta-icon {
+    font-size: 1.25rem;
+    margin-bottom: var(--spacing-xs);
+}
+
+.eta-label {
+    font-size: 0.625rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+}
+
+.eta-value {
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.person-details {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+/* ==================== LOW TECH RIDE SCREEN ==================== */
+.section-title {
+    text-align: center;
+    margin-bottom: var(--spacing-md);
+}
+
+.offline-hint {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    padding: var(--spacing-md);
+}
+
+.ride-partner-info {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    background-color: var(--bg-primary);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.partner-avatar {
+    width: 48px;
+    height: 48px;
+    background-color: var(--primary-light);
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.partner-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.partner-name {
+    font-weight: 600;
+}
+
+.partner-study {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.ride-route-info {
+    padding: var(--spacing-md);
+    background-color: var(--bg-primary);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-md);
+    text-align: center;
+}
+
+.route-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    font-weight: 600;
+    margin-bottom: var(--spacing-xs);
+}
+
+.route-arrow {
+    color: var(--text-muted);
+}
+
+.eta-display {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.low-tech-notice {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    background-color: var(--success-light);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.low-tech-notice .notice-icon {
+    font-size: 1.5rem;
+}
+
+.low-tech-notice p {
+    font-size: 0.875rem;
+    color: var(--success);
+    margin: 0;
+}
+
+.btn-large {
+    padding: var(--spacing-lg) var(--spacing-xl);
+    font-size: 1.125rem;
+}
+
+/* ==================== WARNING BOX ==================== */
+.warning-box {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    background-color: var(--danger-light);
+    border-radius: var(--radius-md);
+    margin: var(--spacing-md) 0;
+}
+
+.warning-icon {
+    font-size: 1.5rem;
+}
+
+.warning-text {
+    color: var(--danger);
+    font-size: 0.875rem;
+    margin: 0;
+}
+
+/* ==================== WALLET SCREEN ==================== */
+.wallet-content {
+    flex: 1;
+    padding: var(--spacing-md);
+    padding-bottom: calc(var(--nav-height) + var(--spacing-lg));
+    overflow-y: auto;
+}
+
+.wallet-card {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    color: white;
+    margin-bottom: var(--spacing-md);
+}
+
+.wallet-balance {
+    margin-bottom: var(--spacing-md);
+}
+
+.balance-label {
+    font-size: 0.875rem;
+    opacity: 0.9;
+    display: block;
+}
+
+.balance-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.wallet-estimate {
+    padding-top: var(--spacing-md);
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.estimate-label {
+    font-size: 0.75rem;
+    opacity: 0.8;
+    display: block;
+}
+
+.estimate-value {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.karma-card {
+    background-color: var(--bg-primary);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.karma-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-xs);
+}
+
+.karma-title {
+    font-weight: 600;
+}
+
+.karma-score {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--warning);
+}
+
+.karma-description {
+    font-size: 0.75rem;
+    margin: 0;
+}
+
+.driver-section {
+    background-color: var(--bg-primary);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.driver-section h3 {
+    margin-bottom: var(--spacing-md);
+}
+
+/* ==================== OFFLINE/SYNC BANNERS ==================== */
+.offline-banner,
+.sync-banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: var(--spacing-sm) var(--spacing-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    font-size: 0.875rem;
+    z-index: 1002;
+}
+
+.offline-banner {
+    background-color: var(--danger);
+    color: white;
+}
+
+.sync-banner {
+    background-color: var(--warning);
+    color: white;
+}
+
+.status-dot.idle {
+    background-color: white;
+    opacity: 0.7;
+}
+
+/* ==================== UTILITIES ==================== */
+.hidden {
+    display: none !important;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.mt-md {
+    margin-top: var(--spacing-md);
+}
+
+.mb-md {
+    margin-bottom: var(--spacing-md);
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (min-width: 768px) {
+    .login-container {
+        padding: var(--spacing-xl);
+    }
+
+    .login-box {
+        padding: var(--spacing-xl);
+    }
+
+    .dashboard-content,
+    .search-content,
+    .history-content {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+}
