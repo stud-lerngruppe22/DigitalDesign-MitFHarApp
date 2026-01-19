@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>CampusRide - Mitfahrgelegenheit für Studierende</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="screen-login" class="screen active">
+        <div class="login-container">
+            <div class="logo">
+                <div class="logo-icon">🚗</div>
+                <h1>CampusRide</h1>
+                <p class="tagline">Mitfahrgelegenheit für Studierende</p>
+            </div>
+            <div class="login-box">
+                <h2>Anmelden</h2>
+                <p class="login-info">Melde dich mit deinem Hochschul-Account an (Shibboleth)</p>
+
+                <!-- Hochschul-Auswahl -->
+                <div class="form-group">
+                    <label for="uni-select">Hochschule auswählen</label>
+                    <select id="uni-select">
+                        <option value="">-- Bitte wählen --</option>
+                        <option value="tu-berlin">TU Berlin</option>
+                        <option value="fu-berlin">FU Berlin</option>
+                        <option value="hu-berlin">HU Berlin</option>
+                        <option value="htw-berlin">HTW Berlin</option>
+                        <option value="beuth">Beuth Hochschule</option>
+                        <option value="fh-dortmund">FH Dortmund</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="uni-email">Hochschul-E-Mail</label>
+                    <input type="email" id="uni-email" placeholder="vorname.nachname@uni.de">
+                </div>
+                <div class="form-group">
+                    <label for="password">Passwort</label>
+                    <input type="password" id="password" placeholder="••••••••">
+                </div>
+                <button id="btn-login" class="btn btn-primary btn-full">
+                    🔐 Mit Hochschul-Account einloggen
+                </button>
+                <p class="privacy-note">
+                    🔒 Authentifizierung über deinen Hochschul-Identity-Provider
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Screen (UI-01) -->
+    <div id="screen-dashboard" class="screen">
+        <header class="app-header">
+            <div class="header-left">
+                <span class="user-greeting">Hallo, <span id="user-name">Student</span></span>
+            </div>
+            <div class="header-right">
+                <button id="btn-logout" class="btn-icon" title="Ausloggen">
+                    <span class="icon">⚙️</span>
+                </button>
+            </div>
+        </header>
+
+        <main class="dashboard-content">
+            <!-- Karma & Credits Card -->
+            <div class="credits-card">
+                <div class="credits-info">
+                    <span class="credits-label">Deine Credits</span>
+                    <span class="credits-value" id="credits-display">0</span>
+                </div>
+                <div class="karma-info">
+                    <span class="karma-label">Karma-Score</span>
+                    <span class="karma-value" id="karma-display">⭐ 5.0</span>
+                </div>
+            </div>
+
+            <!-- Quick Match Button -->
+            <button id="btn-quick-match" class="btn btn-accent btn-full quick-match-btn">
+                ⚡ Quick-Match: Nach Hause
+            </button>
+
+            <!-- Role Selection -->
+            <div class="role-selection">
+                <h2>Was möchtest du tun?</h2>
+                <div class="role-cards">
+                    <button id="btn-passenger" class="role-card">
+                        <div class="role-icon">🧑‍🤝‍🧑</div>
+                        <div class="role-text">
+                            <h3>Mitfahren</h3>
+                            <p>Finde eine Fahrt zu deinem Ziel</p>
+                        </div>
+                    </button>
+                    <button id="btn-driver" class="role-card">
+                        <div class="role-icon">🚗</div>
+                        <div class="role-text">
+                            <h3>Fahren</h3>
+                            <p>Biete deine Route an</p>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Nearby Departures (like train station board) -->
+            <div class="departures-section">
+                <h2>🚏 Abfahrten in deiner Nähe</h2>
+                <div class="departures-list" id="departures-list">
+                    <div class="departure-card">
+                        <div class="departure-time">14:30</div>
+                        <div class="departure-info">
+                            <span class="departure-destination">→ Hauptbahnhof</span>
+                            <span class="departure-driver">Max M. · VW Golf · Grau</span>
+                        </div>
+                        <span class="departure-seats">2 frei</span>
+                    </div>
+                    <div class="departure-card">
+                        <div class="departure-time">14:45</div>
+                        <div class="departure-info">
+                            <span class="departure-destination">→ Campus West</span>
+                            <span class="departure-driver">Lisa S. · Toyota Yaris · Blau</span>
+                        </div>
+                        <span class="departure-seats">1 frei</span>
+                    </div>
+                    <div class="departure-card">
+                        <div class="departure-time">15:00</div>
+                        <div class="departure-info">
+                            <span class="departure-destination">→ S-Bahn Westkreuz</span>
+                            <span class="departure-driver">Tom K. · Opel Corsa · Rot</span>
+                        </div>
+                        <span class="departure-seats">3 frei</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <nav class="bottom-nav">
+            <button class="nav-item active" data-screen="dashboard">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-label">Start</span>
+            </button>
+            <button class="nav-item" data-screen="search">
+                <span class="nav-icon">🔍</span>
+                <span class="nav-label">Suchen</span>
+            </button>
+            <button class="nav-item" data-screen="wallet">
+                <span class="nav-icon">💰</span>
+                <span class="nav-label">Wallet</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- Search/Offer Ride Screen -->
+    <div id="screen-search" class="screen">
+        <header class="app-header">
+            <button id="btn-back-search" class="btn-icon">
+                <span class="icon">←</span>
+            </button>
+            <h1 id="search-title">Fahrt suchen</h1>
+            <div class="header-spacer"></div>
+        </header>
+
+        <main class="search-content">
+            <div class="search-form">
+                <div class="form-group">
+                    <label for="input-start">Startpunkt</label>
+                    <div class="input-with-icon">
+                        <span class="input-icon">📍</span>
+                        <input type="text" id="input-start" placeholder="Wo bist du?">
+                        <button id="btn-gps" class="btn-icon-inline" title="Aktuellen Standort verwenden">
+                            📡
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="input-destination">Zielcampus</label>
+                    <div class="input-with-icon">
+                        <span class="input-icon">🎯</span>
+                        <select id="input-destination">
+                            <option value="">Ziel auswählen...</option>
+                            <option value="campus-mitte">Campus Mitte</option>
+                            <option value="campus-west">Campus West</option>
+                            <option value="campus-nord">Campus Nord</option>
+                            <option value="hauptbahnhof">Hauptbahnhof</option>
+                            <option value="s-westkreuz">S-Bahn Westkreuz</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="input-time">Ankunftszeit</label>
+                    <div class="input-with-icon">
+                        <span class="input-icon">🕐</span>
+                        <input type="datetime-local" id="input-time">
+                    </div>
+                </div>
+
+                <!-- Filter Options -->
+                <div class="filter-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="filter-women-only">
+                        <span>Women-only Ride</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="filter-accessible">
+                        <span>Barrierefrei</span>
+                    </label>
+                </div>
+
+                <!-- Driver-only options -->
+                <div id="driver-options" class="driver-options" style="display: none;">
+                    <h3>Fahrer-Optionen</h3>
+                    <div class="form-group">
+                        <label for="input-seats">Freie Plätze</label>
+                        <select id="input-seats">
+                            <option value="1">1 Platz</option>
+                            <option value="2">2 Plätze</option>
+                            <option value="3">3 Plätze</option>
+                            <option value="4">4 Plätze</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="input-car">Fahrzeug</label>
+                        <input type="text" id="input-car" placeholder="z.B. VW Golf, Grau">
+                    </div>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="driver-recurring">
+                        <span>Als Serien-Termin wiederholen</span>
+                    </label>
+                </div>
+
+                <button id="btn-search-rides" class="btn btn-primary btn-full">
+                    🔍 Fahrten suchen
+                </button>
+            </div>
+
+            <!-- Smart Meeting Points -->
+            <div class="meeting-points" id="meeting-points" style="display: none;">
+                <h3>Smart Meeting Points</h3>
+                <p class="info-text">Treffpunkte statt Privatadressen - zum Schutz deiner Privatsphäre (200m Radius)</p>
+                <div class="points-list" id="points-list">
+                    <!-- Wird dynamisch befüllt -->
+                </div>
+            </div>
+
+            <!-- Search Results -->
+            <div class="search-results" id="search-results" style="display: none;">
+                <h3>Passende Fahrten</h3>
+                <div class="results-list" id="results-list">
+                    <!-- Wird dynamisch befüllt -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Match Confirmation Screen -->
+    <div id="screen-match" class="screen">
+        <header class="app-header">
+            <button id="btn-back-match" class="btn-icon">
+                <span class="icon">←</span>
+            </button>
+            <h1>Match gefunden!</h1>
+            <div class="header-spacer"></div>
+        </header>
+
+        <main class="match-content">
+            <div class="match-success">
+                <div class="match-icon">🎉</div>
+                <h2>Fahrt bestätigt!</h2>
+            </div>
+
+            <div class="match-details">
+                <div class="match-person">
+                    <div class="person-avatar" id="match-avatar">🧑</div>
+                    <div class="person-info">
+                        <span class="person-name" id="match-name">Max M.</span>
+                        <span class="person-details" id="match-details">Informatik, 4. Semester</span>
+                        <span class="person-rating">⭐ 4.8 Karma</span>
+                    </div>
+                </div>
+
+                <!-- Fahrzeug-Info -->
+                <div class="vehicle-info" id="vehicle-info">
+                    <span class="vehicle-icon">🚗</span>
+                    <span class="vehicle-text">VW Golf · Grau · B-XY 1234</span>
+                </div>
+
+                <div class="match-route">
+                    <div class="route-point">
+                        <span class="point-icon start">●</span>
+                        <div class="point-info">
+                            <span class="point-label">Treffpunkt (Smart Meeting Point)</span>
+                            <span class="point-name" id="match-start">Bushaltestelle Campus</span>
+                        </div>
+                    </div>
+                    <div class="route-line"></div>
+                    <div class="route-point">
+                        <span class="point-icon end">●</span>
+                        <div class="point-info">
+                            <span class="point-label">Ziel</span>
+                            <span class="point-name" id="match-end">Hauptbahnhof</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="match-eta">
+                    <div class="eta-item">
+                        <span class="eta-icon">🕐</span>
+                        <span class="eta-label">Abfahrt</span>
+                        <span class="eta-value" id="match-time">14:30 Uhr</span>
+                    </div>
+                    <div class="eta-item">
+                        <span class="eta-icon">🎯</span>
+                        <span class="eta-label">ETA Ankunft</span>
+                        <span class="eta-value" id="match-eta">~15:05 Uhr</span>
+                    </div>
+                    <div class="eta-item">
+                        <span class="eta-icon">📏</span>
+                        <span class="eta-label">Strecke</span>
+                        <span class="eta-value" id="match-distance">~12 km</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="match-actions">
+                <button id="btn-navigate" class="btn btn-secondary btn-full">
+                    🗺️ In Google Maps öffnen
+                </button>
+                <button id="btn-start-ride" class="btn btn-primary btn-full">
+                    ✅ Am Treffpunkt - Fahrt starten
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Active Ride Screen (UI-02 - Low Tech Edition) -->
+    <div id="screen-ride" class="screen">
+        <header class="app-header ride-header">
+            <div class="ride-status-indicator" id="ride-status-indicator">
+                <span class="status-dot idle"></span>
+                <span class="status-label">Fahrt aktiv</span>
+            </div>
+        </header>
+
+        <main class="ride-content">
+            <!-- Pre-Start: QR Code Section (Check-In) -->
+            <div id="ride-qr-section" class="ride-section">
+                <h2 class="section-title">Check-In</h2>
+                <div class="qr-container">
+                    <div id="qr-display" class="qr-display">
+                        <div class="qr-placeholder">
+                            <span class="qr-icon">📱</span>
+                            <p>QR-Code generieren</p>
+                        </div>
+                    </div>
+                    <p class="qr-info" id="qr-info">
+                        Zeige diesen Code dem Fahrer zum Scannen
+                    </p>
+                </div>
+
+                <div class="qr-actions">
+                    <button id="btn-generate-qr" class="btn btn-primary btn-full">
+                        📱 QR-Code generieren (Mitfahrer)
+                    </button>
+                    <button id="btn-scan-qr" class="btn btn-secondary btn-full">
+                        📷 QR-Code scannen (Fahrer)
+                    </button>
+                </div>
+
+                <p class="offline-hint">
+                    ✈️ Funktioniert auch offline - Daten werden später synchronisiert
+                </p>
+            </div>
+
+            <!-- Active Ride Section (Low Tech - No GPS Tracking) -->
+            <div id="ride-active-section" class="ride-section" style="display: none;">
+                <div class="ride-partner-info">
+                    <div class="partner-avatar">🧑</div>
+                    <div class="partner-details">
+                        <span class="partner-name" id="ride-partner-name">Max M.</span>
+                        <span class="partner-study" id="ride-partner-study">Informatik</span>
+                    </div>
+                </div>
+
+                <div class="ride-timer">
+                    <span class="timer-label">Fahrtdauer</span>
+                    <span class="timer-value" id="ride-timer">00:00</span>
+                </div>
+
+                <div class="ride-route-info">
+                    <div class="route-display">
+                        <span class="route-from" id="active-from">Campus Mitte</span>
+                        <span class="route-arrow">→</span>
+                        <span class="route-to" id="active-to">Hauptbahnhof</span>
+                    </div>
+                    <div class="eta-display">
+                        <span>Geschätzte Ankunft: </span>
+                        <span id="active-eta">~15:05 Uhr</span>
+                    </div>
+                </div>
+
+                <div class="low-tech-notice">
+                    <span class="notice-icon">🔋</span>
+                    <p>Energiesparmodus aktiv - kein GPS-Tracking während der Fahrt</p>
+                </div>
+
+                <div class="ride-actions">
+                    <button id="btn-emergency" class="btn btn-danger">
+                        🆘 Campus-Security
+                    </button>
+                    <button id="btn-end-ride" class="btn btn-primary btn-large">
+                        🏁 Ankunft bestätigen
+                    </button>
+                </div>
+            </div>
+
+            <!-- Ride Complete Section -->
+            <div id="ride-complete-section" class="ride-section" style="display: none;">
+                <div class="complete-icon">✅</div>
+                <h2>Fahrt abgeschlossen!</h2>
+
+                <div class="complete-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Dauer</span>
+                        <span class="stat-value" id="complete-duration">--</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Strecke</span>
+                        <span class="stat-value" id="complete-distance">~12 km</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Status</span>
+                        <span class="stat-value" id="complete-status">Wird geprüft...</span>
+                    </div>
+                </div>
+
+                <div class="validation-progress" id="validation-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                    <p class="progress-text" id="progress-text">Plausibilitätsprüfung läuft...</p>
+                </div>
+
+                <!-- Plausibility Warning -->
+                <div id="plausibility-warning" class="warning-box" style="display: none;">
+                    <span class="warning-icon">⚠️</span>
+                    <p class="warning-text">Fahrt zu kurz für diese Strecke. Keine Credits möglich.</p>
+                </div>
+
+                <button id="btn-back-dashboard" class="btn btn-primary btn-full" style="display: none;">
+                    Zurück zum Dashboard
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <!-- QR Scanner Modal -->
+    <div id="modal-scanner" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>QR-Code scannen</h2>
+                <button id="btn-close-scanner" class="btn-icon">✕</button>
+            </div>
+            <div class="scanner-container">
+                <div class="scanner-preview" id="scanner-preview">
+                    <div class="scanner-frame"></div>
+                    <p>Kamera wird aktiviert...</p>
+                </div>
+                <!-- Fallback für Demo -->
+                <div class="scanner-fallback">
+                    <p>Oder: Demo-Scan simulieren</p>
+                    <button id="btn-demo-scan" class="btn btn-secondary btn-full">
+                        ✅ QR-Code erfolgreich gescannt (Demo)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wallet & History Screen (UI-03) -->
+    <div id="screen-wallet" class="screen">
+        <header class="app-header">
+            <button id="btn-back-wallet" class="btn-icon">
+                <span class="icon">←</span>
+            </button>
+            <h1>Wallet & Historie</h1>
+            <div class="header-spacer"></div>
+        </header>
+
+        <main class="wallet-content">
+            <!-- Wallet Summary -->
+            <div class="wallet-card">
+                <div class="wallet-balance">
+                    <span class="balance-label">Gesammelte Credits</span>
+                    <span class="balance-value" id="wallet-credits">0</span>
+                </div>
+                <div class="wallet-estimate">
+                    <span class="estimate-label">Geschätzte Auszahlung (Semesterende)</span>
+                    <span class="estimate-value" id="wallet-estimate">~ 0,00 €</span>
+                </div>
+            </div>
+
+            <!-- Karma Score -->
+            <div class="karma-card">
+                <div class="karma-header">
+                    <span class="karma-title">Dein Karma-Score</span>
+                    <span class="karma-score" id="wallet-karma">⭐ 5.0</span>
+                </div>
+                <p class="karma-description">Zuverlässigkeitsindex basierend auf bestätigten Fahrten</p>
+            </div>
+
+            <!-- Driver Options -->
+            <div class="driver-section" id="driver-payout-section">
+                <h3>Fahrer-Auszahlung</h3>
+                <div class="form-group">
+                    <label for="iban-input">IBAN für Auszahlung</label>
+                    <input type="text" id="iban-input" placeholder="DE89 3704 0044 0532 0130 00">
+                </div>
+                <button id="btn-save-iban" class="btn btn-secondary">
+                    💾 IBAN speichern
+                </button>
+            </div>
+
+            <!-- History Summary -->
+            <div class="history-summary">
+                <div class="summary-item">
+                    <span class="summary-value" id="total-rides">0</span>
+                    <span class="summary-label">Fahrten</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-value" id="total-credits">0</span>
+                    <span class="summary-label">Credits</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-value" id="total-km">0</span>
+                    <span class="summary-label">km</span>
+                </div>
+            </div>
+
+            <!-- Export Button -->
+            <button id="btn-export-pdf" class="btn btn-outline btn-full">
+                📄 Semester-Nachweis (PDF)
+            </button>
+
+            <!-- History List -->
+            <h3>Letzte Fahrten</h3>
+            <div class="history-list" id="history-list">
+                <div class="history-empty">
+                    <span class="empty-icon">📋</span>
+                    <p>Noch keine Fahrten vorhanden</p>
+                </div>
+            </div>
+        </main>
+
+        <nav class="bottom-nav">
+            <button class="nav-item" data-screen="dashboard">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-label">Start</span>
+            </button>
+            <button class="nav-item" data-screen="search">
+                <span class="nav-icon">🔍</span>
+                <span class="nav-label">Suchen</span>
+            </button>
+            <button class="nav-item active" data-screen="wallet">
+                <span class="nav-icon">💰</span>
+                <span class="nav-label">Wallet</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast" style="display: none;">
+        <span class="toast-icon" id="toast-icon">ℹ️</span>
+        <span class="toast-message" id="toast-message">Nachricht</span>
+    </div>
+
+    <!-- Offline Indicator -->
+    <div id="offline-banner" class="offline-banner" style="display: none;">
+        <span class="banner-icon">📴</span>
+        <span class="banner-text">Offline-Modus - Daten werden später synchronisiert</span>
+    </div>
+
+    <!-- Sync Indicator -->
+    <div id="sync-banner" class="sync-banner" style="display: none;">
+        <span class="banner-icon">🔄</span>
+        <span class="banner-text">Synchronisiere Fahrtdaten...</span>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
