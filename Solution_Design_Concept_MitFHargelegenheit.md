@@ -1,7 +1,7 @@
 # Solution Design Concept: MitFHargelegenheit
 
 ## Vision
-MitFHargelegenheit soll den Pendelverkehr zur Fachhochschule Dortmund revolutionieren, indem es eine digitale Plattform für Fahrgemeinschaften unter Studierenden bereitstellt. Die Lösung soll die Umweltbelastung durch reduzierten CO2-Ausstoß senken, die Parkplatzsituation auf dem Campus entlasten und gleichzeitig die soziale Vernetzung unter den Studierenden fördern. Langfristig soll die Plattform auch für Dozenten und Mitarbeiter der Hochschule sowie Partnerunternehmen geöffnet werden.
+MitFHargelegenheit soll den Pendelverkehr zur Fachhochschule Dortmund revolutionieren, indem es eine digitale Plattform für Fahrgemeinschaften unter Studierenden bereitstellt. Die Lösung soll die Umweltbelastung durch reduzierten CO2-Ausstoß senken, die Parkplatzsituation auf dem Campus entlasten und gleichzeitig die soziale Vernetzung unter den Studierenden fördern. In der ersten Version fokussiert sich die App auf den Standort Emil-Figge-Straße. Langfristig soll die Plattform auf weitere Standorte ausgeweitet und auch für Dozenten und Mitarbeiter der Hochschule sowie Partnerunternehmen geöffnet werden.
 
 ## Value Proposition
 
@@ -27,8 +27,9 @@ MitFHargelegenheit soll den Pendelverkehr zur Fachhochschule Dortmund revolution
 
 ### Digitale Elemente
 - **MitFHargelegenheit Mobile App (iOS/Android):** Hauptschnittstelle für Nutzer zum Anbieten, Suchen und Buchen von Fahrten sowie zur Bewertungsabgabe
-- **MitFHargelegenheit Backend-System:** Verwaltet Nutzerprofile, Fahrten, Buchungen und Bewertungen
-- **Benachrichtigungssystem:** Informiert Nutzer über Buchungsanfragen, Bestätigungen und Erinnerungen
+- **MitFHargelegenheit Backend-System:** Verwaltet Nutzerprofile, Fahrten, Buchungen, Bewertungen und Chat-Nachrichten
+- **In-App Chat-System:** Ermöglicht die direkte Kommunikation zwischen Fahrer und Mitfahrer zur Abstimmung von Details (Treffpunkt, Uhrzeit, etc.)
+- **Benachrichtigungssystem:** Informiert Nutzer über Buchungsanfragen, Bestätigungen, Chat-Nachrichten und Erinnerungen
 - **Kartendienst:** Zeigt Routen und Treffpunkte an (z.B. Integration von OpenStreetMap oder Google Maps)
 
 ## Information Architecture
@@ -60,10 +61,10 @@ Das Fahrtangebot beschreibt eine angebotene Mitfahrgelegenheit:
 - Fahrer (Nutzer-ID)
 - Fahrzeug-ID
 - Startort (Adresse oder Koordinaten)
-- Zielort (FH-Standort: Emil-Figge-Straße, Sonnenstraße, Max-Ophüls-Platz)
+- Zielort (FH-Standort Emil-Figge-Straße; weitere Standorte in zukünftigen Versionen)
 - Abfahrtsdatum und -uhrzeit
 - Anzahl freier Plätze
-- Kostenbeitrag pro Mitfahrer (optional)
+- Kostenbeitrag pro Mitfahrer (optional, Hinweis auf private Abrechnung in Version 1; In-App-Zahlung in zukünftiger Version)
 - Regelmäßigkeit (einmalig, täglich, wöchentlich an bestimmten Tagen)
 - Umwege akzeptiert (ja/nein)
 - Status (offen, voll, abgeschlossen, storniert)
@@ -89,10 +90,20 @@ Die Bewertung ermöglicht gegenseitiges Feedback:
 - Bewertungskategorien (Pünktlichkeit, Freundlichkeit, Fahrstil/Zuverlässigkeit)
 - Bewertungszeitpunkt
 
+### Chat-Nachricht
+Die Entität Chat-Nachricht erfasst die Kommunikation zwischen Fahrer und Mitfahrer:
+- Nachricht-ID
+- Buchungs-ID (Kontext der Konversation)
+- Sender (Nutzer-ID)
+- Empfänger (Nutzer-ID)
+- Nachrichtentext
+- Zeitstempel
+- Gelesen-Status (ja/nein)
+
 ### FH-Standort
 Die Entität FH-Standort erfasst die Zielorte an der FH Dortmund:
 - Standort-ID
-- Name (z.B. "Campus Emil-Figge-Straße", "Campus Sonnenstraße")
+- Name (in Version 1: "Campus Emil-Figge-Straße"; zukünftig auch weitere Standorte)
 - Adresse
 - Koordinaten
 
@@ -115,18 +126,27 @@ Die Entität FH-Standort erfasst die Zielorte an der FH Dortmund:
 
 ### Mitfahrgelegenheit suchen und buchen
 1. Der Mitfahrer öffnet die MitFHargelegenheit App und wählt "Fahrt suchen".
-2. Der Mitfahrer gibt seinen Startbereich, den gewünschten FH-Standort, Datum und ungefähre Uhrzeit ein.
+2. Der Mitfahrer gibt seinen Startbereich, den FH-Standort Emil-Figge-Straße als Ziel, Datum und ungefähre Uhrzeit ein.
 3. Das Backend-System zeigt passende Fahrtangebote an, sortiert nach Entfernung und Bewertung des Fahrers.
 4. Der Mitfahrer wählt ein passendes Fahrtangebot und sendet eine Buchungsanfrage.
 5. Das Benachrichtigungssystem informiert den Fahrer über die Buchungsanfrage.
 6. Der Fahrer prüft das Profil und die Bewertung des Mitfahrers und bestätigt oder lehnt die Anfrage ab.
 7. Das Benachrichtigungssystem informiert den Mitfahrer über die Entscheidung.
 8. Bei Bestätigung wird die Buchung im Backend-System gespeichert und die Anzahl freier Plätze reduziert.
+9. Fahrer und Mitfahrer können über das In-App Chat-System Details zur Fahrt abstimmen (z.B. genauer Treffpunkt, Erkennungsmerkmale).
+
+### Chat-Kommunikation zwischen Fahrer und Mitfahrer
+1. Nach bestätigter Buchung öffnet der Fahrer oder Mitfahrer den Chat über die MitFHargelegenheit App.
+2. Der Nutzer verfasst eine Nachricht (z.B. zur Absprache des genauen Treffpunkts oder bei Verspätungen).
+3. Das In-App Chat-System übermittelt die Nachricht an den Gesprächspartner.
+4. Das Benachrichtigungssystem sendet eine Push-Benachrichtigung über die neue Nachricht.
+5. Der Empfänger liest die Nachricht und antwortet bei Bedarf.
+6. Das Backend-System speichert alle Nachrichten zur Nachvollziehbarkeit.
 
 ### Fahrt durchführen
 1. Das Benachrichtigungssystem sendet am Vortag oder einige Stunden vor der Fahrt eine Erinnerung an Fahrer und Mitfahrer.
 2. Der Fahrer und die Mitfahrer treffen sich am vereinbarten Treffpunkt zur angegebenen Zeit.
-3. Die Fahrt wird gemeinsam zur FH Dortmund durchgeführt.
+3. Die Fahrt wird gemeinsam zum FH-Standort Emil-Figge-Straße durchgeführt.
 4. Nach Ankunft am FH-Standort markiert der Fahrer die Fahrt als abgeschlossen.
 5. Das Backend-System aktualisiert den Status der Fahrt und der zugehörigen Buchungen auf "abgeschlossen".
 
@@ -174,6 +194,9 @@ Die Nutzung der Plattform ist auf Mitglieder der FH Dortmund beschränkt. Die Ve
 
 ### Keine kommerzielle Gewinnerzielung
 MitFHargelegenheit dient der Kostenverteilung, nicht der Gewinnerzielung. Die Kostenbeiträge dürfen nur die tatsächlichen Fahrtkosten (Benzin, Verschleiß) decken und keine Personenbeförderung im gewerblichen Sinne darstellen.
+
+### Bezahlung (Version 1: Privat)
+In der ersten Version der App erfolgt die Kostenbeteiligung privat zwischen Fahrer und Mitfahrer (z.B. Bargeld oder private Überweisung). Die App zeigt lediglich den empfohlenen Kostenbeitrag an. In einer zukünftigen Version soll ein In-App-Bezahlsystem integriert werden, das die Abwicklung vereinfacht und für mehr Transparenz sorgt.
 
 ### Haftungsausschluss
 Die Plattform vermittelt lediglich Kontakte zwischen Fahrern und Mitfahrern. Die Haftung für Unfälle oder Schäden während der Fahrt liegt beim Fahrer bzw. dessen Kfz-Versicherung. Dies muss den Nutzern transparent kommuniziert werden.
